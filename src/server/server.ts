@@ -1,4 +1,4 @@
-import { Server as HttpServer } from "http";
+import http, { Server as HttpServer } from "http";
 
 import express, { Application, Router } from "express";
 import { join } from "path";
@@ -66,11 +66,14 @@ export class Server {
     this.expressApp.set("view engine", "handlebars");
     this.expressApp.set("views", join(__dirname, "..", "..", "views"));
     this.expressApp.get("/ping", (req, res) => res.end("PONG"));
+
+    this.state.httpServer = http.createServer(this.expressApp);
   }
 
   public async load(appFn: ApplicationFunction) {
     await appFn(this.probotApp, {
       getRouter: (path) => this.router(path),
+      getHttpServer: () => this.httpServer()
     });
   }
 
@@ -82,8 +85,8 @@ export class Server {
     const { host, webhookPath, webhookProxy } = this.state;
     const printableHost = host ?? "localhost";
 
-    this.state.httpServer = (await new Promise((resolve, reject) => {
-      const server = this.expressApp.listen(
+    await new Promise((resolve, reject) => {
+      const server = this.httpServer().listen(
         port,
         ...((host ? [host] : []) as any),
         () => {
@@ -110,7 +113,7 @@ export class Server {
         this.log.error(error);
         reject(error);
       });
-    })) as HttpServer;
+    });
 
     return this.state.httpServer;
   }
@@ -126,5 +129,9 @@ export class Server {
     const newRouter = Router();
     this.expressApp.use(path, newRouter);
     return newRouter;
+  }
+
+  public httpServer() {
+    return this.state.httpServer!;
   }
 }

@@ -1,8 +1,8 @@
 {
-  "name": "probot",
+  "name": "@denizhoxha/probot",
   "version": "0.0.0-development",
   "description": "A framework for building GitHub Apps to automate and improve your workflow",
-  "repository": "github:probot/probot",
+  "repository": "https://github.com/denizhoxha/probot.git",
   "main": "lib/index.js",
   "types": "./lib/index.d.ts",
   "bin": {
@@ -70,9 +70,9 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@octokit/webhooks-examples": "^4.0.0",
-    "@octokit/webhooks-methods": "^3.0.0",
-    "@octokit/webhooks-types": "^4.0.0",
+    "@octokit/webhooks-examples": "^6.11.0",
+    "@octokit/webhooks-methods": "^3.0.2",
+    "@octokit/webhooks-types": "6.11.0",
     "@tsconfig/node10": "^1.0.7",
     "@types/eventsource": "^1.1.5",
     "@types/jest": "^26.0.18",
@@ -121,6 +121,9 @@
   },
   "tsd": {
     "directory": "test/types"
+  },
+  "publishConfig": {
+    "access": "public" 
   },
   "release": {
     "plugins": [

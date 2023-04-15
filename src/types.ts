@@ -12,6 +12,8 @@ import { Context } from "./context";
 import { ProbotOctokit } from "./octokit/probot-octokit";
 
 import type { Logger, LogFn } from "pino";
+import { Server as HttpServer } from "http";
+
 
 export interface Options {
   privateKey?: string;
@@ -51,6 +53,7 @@ export type DeprecatedLogger = LogFn & Logger;
 
 export type ApplicationFunctionOptions = {
   getRouter?: (path?: string) => express.Router;
+  getHttpServer?: () => HttpServer;
   [key: string]: unknown;
 };
 export type ApplicationFunction = (
