@@ -47,6 +47,7 @@ export class ManifestCreation {
       Object.assign(
         {
           description: manifest.description || pkg.description,
+          url: process.env.WEBHOOK_PROXY_URL || `${baseUrl}/`,
           hook_attributes: {
             url: process.env.WEBHOOK_PROXY_URL || `${baseUrl}/`,
           },
